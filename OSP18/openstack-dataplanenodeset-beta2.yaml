@@ -1,0 +1,185 @@
+apiVersion: dataplane.openstack.org/v1beta1
+kind: OpenStackDataPlaneNodeSet
+metadata:
+  name: osp-mcn-lab
+  namespace: openstack
+spec:
+  preProvisioned: false
+  # env:
+  #   - name: ANSIBLE_FORCE_COLOR
+  #     value: "True"
+  #   - name: ANSIBLE_ENABLE_TASK_DEBUGGER
+  #     value: "True"
+  services:
+    - download-cache
+    - bootstrap
+    - configure-network
+    - validate-network
+    - install-os
+    - configure-os
+    - run-os
+    - install-certs
+    - ssh-known-hosts
+    - ovn
+    - neutron-metadata
+    - libvirt
+    - nova
+    - telemetry
+  baremetalSetTemplate:
+    bmhLabelSelector:
+      app: openstack
+    ctlplaneInterface: enp2s0
+    cloudUserName: cloud-admin
+    deploymentSSHSecret: osp-installation-secret
+  nodes:
+    osp-compute-0:
+      hostName: osp-compute-0
+      ansible:
+        ansibleHost: 192.168.123.105
+        ansibleUser: cloud-admin
+      networks:
+      - name: CtlPlane
+        subnetName: subnet1
+        defaultRoute: true
+        fixedIP: 192.168.123.105
+    osp-compute-1:
+      hostName: osp-compute-1
+      ansible:
+        ansibleHost: 192.168.123.106
+        ansibleUser: cloud-admin
+      networks:
+      - name: CtlPlane
+        subnetName: subnet1
+        defaultRoute: true
+        fixedIP: 192.168.123.106
+  networkAttachments:
+    - ctlplane
+  nodeTemplate:
+    networks:
+      - name: CtlPlane
+        subnetName: subnet1
+        defaultRoute: true
+      - name: InternalApi
+        subnetName: subnet1
+      - name: Storage
+        subnetName: subnet1
+      - name: Tenant
+        subnetName: subnet1
+      - name: External
+        subnetName: subnet1
+    ansibleSSHPrivateKeySecret: osp-installation-secret
+    managementNetwork: ctlplane
+    ansible:
+      ansibleUser: cloud-admin
+      ansiblePort: 22
+      ansibleVars:
+        edpm_bootstrap_command: |
+          echo "10.17.3.1  osp-hetzner.lab.local" >> /etc/hosts
+          # subscription-manager register --username <usr> --password <passwd>
+          # subscription-manager release --set=9.2
+          # subscription-manager repos --disable=*
+          # subscription-manager repos --enable=rhel-9-for-x86_64-baseos-eus-rpms --enable=openstack-dev-preview-for-rhel-9-x86_64-rpms --enable=rhel-9-for-x86_64-appstream-eus-rpms --enable=rhel-9-for-x86_64-highavailability-eus-rpms --enable=fast-datapath-for-rhel-9-x86_64-rpms --enable=rhceph-6-tools-for-rhel-9-x86_64-rpms
+          echo 'LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUQ1VENDQXMyZ0F3SUJBZ0lVV2grQjZxMFFFY3ZOZjhQMmxicDJaMHltUUVZd0RRWUpLb1pJaHZjTkFRRUwKQlFBd2J6RUxNQWtHQTFVRUJoTUNWVk14Q3pBSkJnTlZCQWdNQWxaQk1SRXdEd1lEVlFRSERBaE9aWGNnV1c5eQphekVOTUFzR0ExVUVDZ3dFVVhWaGVURVJNQThHQTFVRUN3d0lSR2wyYVhOcGIyNHhIakFjQmdOVkJBTU1GVzl6CmNDMW9aWFI2Ym1WeUxteGhZaTVzYjJOaGJEQWVGdzB5TkRBMU1qRXhOVEk0TVRWYUZ3MHlOekF6TVRFeE5USTQKTVRWYU1HOHhDekFKQmdOVkJBWVRBbFZUTVFzd0NRWURWUVFJREFKV1FURVJNQThHQTFVRUJ3d0lUbVYzSUZsdgpjbXN4RFRBTEJnTlZCQW9NQkZGMVlYa3hFVEFQQmdOVkJBc01DRVJwZG1semFXOXVNUjR3SEFZRFZRUUREQlZ2CmMzQXRhR1YwZW01bGNpNXNZV0l1Ykc5allXd3dnZ0VpTUEwR0NTcUdTSWIzRFFFQkFRVUFBNElCRHdBd2dnRUsKQW9JQkFRRGlGTjJlNjZLaTdkT2NrTi8vV0ZyOU9uTDhQTGp4S1lkZjRMZWtheHRQN2ltOE9uZlEwR2JzNXRtUwpmME1wWDk5ZnZmN3pCQW1yK3NjSFJNeW9QV21aQXdyOFdscEhSblZTemZzR3JoTHVESVFOZXhBNzhDT202cnBICnd5L01kOERqV3dheXdwWVR4RWRnWkcyL0FpbWRTK1dsVXp6Zittd2Z6NFF0Ui9vamR6dWFsOVZ5d3U0eElHWnoKbTViQ2F6YXlKTGI3R2hXc0pOM2JGRlhzMkx0NlpKcHpqT3RjSDRhcTV3b2J2aUZQMnpTN21oT2dTK3V5eU1hVgpWdEc1Mm9SdjlXc1RRTDNobDRYMUY3NW9qMTZiSEpXOU4vUWtiNUNIaWpHaVJpZzhock42Y2x0YVZnMmk2WkpKCmtZeldqVDJ5MTNrN2hGZWJRNEFPRzh2L28yMDVBZ01CQUFHamVUQjNNQXNHQTFVZER3UUVBd0lDNURBVEJnTlYKSFNVRUREQUtCZ2dyQmdFRkJRY0RBVEFnQmdOVkhSRUVHVEFYZ2hWdmMzQXRhR1YwZW01bGNpNXNZV0l1Ykc5agpZV3d3RWdZRFZSMFRBUUgvQkFnd0JnRUIvd0lCQVRBZEJnTlZIUTRFRmdRVWxMMTA5dXY0REhKd3FPQWxYcDNoClFWNXRxaWd3RFFZSktvWklodmNOQVFFTEJRQURnZ0VCQU5wQjlmYjBrTGRvaHZ4WFU5aGhzSlFrTGQ0N0lXZWwKVVA0c0FWWlhqQVc2Vm4yV00wMyt5WXFsTTV5MGhEZDBkRWthbkhrL1EvS3ZQNEE1TXV3TmtzNkl5aitJRG13MgpBMitoNnk2dUhvR0U0THFIclZlQVRjTkJTbHdZUDFGYklQY0NGWkh1aWgrWUUzaU9GTS9ST3V3RjhpTVpYWDEyCjVjRWhkK2wxR3dzYW1MWVZJWTZlandHbUg2Q2ZoTWVOTS9tbkpmc2xFSkdOR0JiOUdkK3dzNnJSRTlHWlNkYVAKcW00VEk2aTl5Q3ZhdkNoTlpVQUd5VzI3VjAxN0xjelZ5VVVkU1RwbzdyOFRQVzNYY3dabEd5VkoxeUwwZHphUApmdkFWQm9NNUs5NnN5bUtJbU1kZzkvaEsxV2pmQW9KRSthWlQwNkNQWm5TUmhwdVM3M0hpdVlZPQotLS0tLUVORCBDRVJUSUZJQ0FURS0tLS0tCg==' | base64 -d  > /etc/pki/ca-trust/source/anchors/osp-hetzner.lab.local.crt
+          update-ca-trust
+          mkdir -p /root/.docker
+          echo '{"auths":{"osp-hetzner.lab.local:8443": {"auth": "aW5pdDoxMjM0NTY3OA=="}}}' > /root/.docker/config.json
+          #registry_url: "osp-hetzner.lab.local:8443/rhosp-dev-preview"
+          #image_tag: "18.0"
+        edpm_bootstrap_release_version_package: "rhoso-release"
+        edpm_ovn_controller_agent_image: "osp-hetzner.lab.local:8443/admin/rhoso-beta/openstack-ovn-controller-rhel9:18.0.0"
+        edpm_iscsid_image: "osp-hetzner.lab.local:8443/admin/rhoso-beta/openstack-iscsid-rhel9:18.0.0"
+        edpm_logrotate_crond_image: "osp-hetzner.lab.local:8443/admin/rhoso-beta/openstack-cron-rhel9:18.0.0"
+        edpm_nova_compute_container_image: "osp-hetzner.lab.local:8443/admin/rhoso-beta/openstack-nova-compute-rhel9:18.0.0"
+        edpm_libvirt_image: "osp-hetzner.lab.local:8443/admin/rhoso-beta/openstack-nova-libvirt-rhel9:18.0.0"
+        edpm_neutron_ovn_agent_image: "osp-hetzner.lab.local:8443/admin/rhoso-beta/openstack-neutron-metadata-agent-ovn-rhel9:18.0.0"
+        edpm_frr_image: "osp-hetzner.lab.local:8443/admin/rhoso-beta/openstack-frr-rhel9:18.0.0"
+        edpm_ovn_bgp_agent_image: "osp-hetzner.lab.local:8443/admin/rhoso-beta/openstack-ovn-bgp-agent-rhel9:18.0.0"
+        edpm_multipathd_image: "osp-hetzner.lab.local:8443/admin/rhoso-beta/openstack-multipathd-rhel9:18.0.0"
+        edpm_neutron_sriov_image: "osp-hetzner.lab.local:8443/admin/rhoso-beta/openstack-neutron-sriov-agent-rhel9:18.0.0"
+        telemetry_node_exporter_image: "osp-hetzner.lab.local:8443/admin/rhoso-beta/node-exporter:v1.5.0"
+        service_net_map:
+          nova_api_network: internal_api
+          nova_libvirt_network: internal_api
+        timesync_ntp_servers:
+          - hostname: 10.17.3.1
+        # edpm_network_config
+        # Default nic config template for a EDPM compute node
+        # These vars are edpm_network_config role vars
+        edpm_network_config_hide_sensitive_logs: false
+        edpm_network_config_template: |
+          ---
+          network_config:
+          - type: ovs_bridge
+            name: br-osp
+            use_dhcp: false
+            mtu: 1400
+            dns_servers: {{ ctlplane_dns_nameservers }}
+            addresses:
+              - ip_netmask:
+                  {{ ctlplane_ip }}/{{ ctlplane_subnet_cidr }}
+            routes: [{'ip_netmask': '0.0.0.0/0', 'next_hop': '192.168.123.1'}]
+            members:
+            - type: interface
+              name: nic2
+              mtu: 1400
+              # force the MAC address of the bridge to this interface
+              primary: true
+            - type: vlan
+              mtu: 1400
+              vlan_id: 20
+              addresses:
+              - ip_netmask:
+                  {{ internal_api_ip }}/24
+              routes: []
+            - type: vlan
+              mtu: 1400
+              vlan_id: 21
+              addresses:
+              - ip_netmask:
+                  {{ storage_ip }}/24
+              routes: []
+            - type: vlan
+              mtu: 1400
+              vlan_id: 22
+              addresses:
+              - ip_netmask:
+                  {{ tenant_ip }}/24
+              routes: []
+          - type: ovs_bridge
+            name: br-ex
+            mtu: 1500
+            use_dhcp: false
+            #dns_servers: []
+            addresses:
+            - ip_netmask:
+                {{ external_ip }}/24
+            routes: []
+            domain: lab.local
+            members:
+            - type: interface
+              name: nic1
+              mtu: 1500
+              primary: true
+        role_networks:
+        - InternalApi
+        - Storage
+        - Tenant
+        - External  
+        networks_lower:
+          InternalApi: internal_api
+          Storage: storage
+          Tenant: tenant
+          External: external
+        # edpm_nodes_validation
+        edpm_nodes_validation_validate_controllers_icmp: false
+        edpm_nodes_validation_validate_gateway_icmp: false
+        ctlplane_dns_nameservers:
+        - 192.168.123.1
+        dns_search_domains: lab.local
+        gather_facts: false
+        enable_debug: false
+        # edpm firewall, change the allowed CIDR if needed
+        edpm_sshd_configure_firewall: true
+        edpm_sshd_allowed_ranges: ['192.168.123.0/24']
+        # SELinux module
+        edpm_selinux_mode: enforcing

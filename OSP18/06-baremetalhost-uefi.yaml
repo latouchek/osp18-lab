@@ -1,0 +1,95 @@
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: osp-compute-0
+  namespace: openshift-machine-api
+data:
+  password: cGFzc3dvcmQK
+  username: YWRtaW4K
+type: Opaque
+
+---
+apiVersion: metal3.io/v1alpha1
+kind: BareMetalHost
+metadata:
+  name:     osp-compute-0
+  namespace: openshift-machine-api
+  labels:
+    app: openstack
+    workload: compute
+spec:
+  online: false
+  bootMode: UEFI
+  rootDeviceHints:
+    deviceName: /dev/vda
+  bootMACAddress: ba:bb:cc:12:82:00
+  hardwareProfile: libvirt
+  bmc:
+    address: 'redfish-virtualmedia+http://10.17.3.1:8000/redfish/v1/Systems/osp-compute-0'
+    credentialsName: osp-compute-0
+    disableCertificateVerification: true
+
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: osp-compute-1
+  namespace: openshift-machine-api
+data:
+  password: cGFzc3dvcmQK
+  username: YWRtaW4K
+type: Opaque
+
+---
+apiVersion: metal3.io/v1alpha1
+kind: BareMetalHost
+metadata:
+  name:     osp-compute-1
+  namespace: openshift-machine-api
+  labels:
+    app: openstack
+    workload: compute
+spec:
+  online: false
+  bootMode: UEFI
+  rootDeviceHints:
+    deviceName: /dev/vda
+  bootMACAddress: ba:bb:cc:12:82:00
+  hardwareProfile: libvirt
+  bmc:
+    address: 'redfish-virtualmedia+http://10.17.3.1:8000/redfish/v1/Systems/osp-compute-1'
+    credentialsName: osp-compute-1
+    disableCertificateVerification: true
+
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: osp-compute-2
+  namespace: openshift-machine-api
+data:
+  password: cGFzc3dvcmQK
+  username: YWRtaW4K
+type: Opaque
+
+---
+apiVersion: metal3.io/v1alpha1
+kind: BareMetalHost
+metadata:
+  name:     osp-compute-2
+  namespace: openshift-machine-api
+  labels:
+    app: openstack
+    workload: compute
+spec:
+  online: false
+  bootMode: UEFI
+  rootDeviceHints:
+    deviceName: /dev/vda
+  bootMACAddress: ba:bb:cc:12:82:00
+  hardwareProfile: libvirt
+  bmc:
+    address: 'redfish-virtualmedia+http://10.17.3.1:8000/redfish/v1/Systems/osp-compute-2'
+    credentialsName: osp-compute-2
+    disableCertificateVerification: true

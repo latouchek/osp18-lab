@@ -1,0 +1,105 @@
+apiVersion: k8s.cni.cncf.io/v1
+kind: NetworkAttachmentDefinition
+metadata:
+  name: internalapi
+  namespace: openstack 
+spec:
+  config: |
+    {
+      "cniVersion": "0.3.1",
+      "name": "internalapi",
+      "type": "macvlan",
+      "master": "ens5.20",  
+      "ipam": {               
+        "type": "whereabouts",
+        "range": "172.17.0.0/24",
+        "range_start": "172.17.0.30",  
+        "range_end": "172.17.0.70"
+      }
+    }
+---
+apiVersion: k8s.cni.cncf.io/v1
+kind: NetworkAttachmentDefinition
+metadata:
+  labels:
+    osp/net: ctlplane
+  name: ctlplane
+  namespace: openstack
+spec:
+  config: |
+    {
+      "cniVersion": "0.3.1",
+      "name": "ctlplane",
+      "type": "macvlan",
+      "master": "ens5",
+      "ipam": {
+        "type": "whereabouts",
+        "range": "192.168.123.0/24",
+        "range_start": "192.168.123.30",
+        "range_end": "192.168.123.70"
+      }
+    }
+---
+apiVersion: k8s.cni.cncf.io/v1
+kind: NetworkAttachmentDefinition
+metadata:
+  labels:
+    osp/net: external
+  name: external
+  namespace: openstack
+spec:
+  config: |
+    {
+      "cniVersion": "0.3.1",
+      "name": "external",
+      "type": "macvlan",
+      "master": "ens4",
+      "ipam": {
+        "type": "whereabouts",
+        "range": "10.17.3.0/24",
+        "range_start": "10.17.3.30",
+        "range_end": "10.17.3.70"
+      }
+    }
+---
+apiVersion: k8s.cni.cncf.io/v1
+kind: NetworkAttachmentDefinition
+metadata:
+  name: storage
+  namespace: openstack
+spec:
+  config: |
+    {
+      "cniVersion": "0.3.1",
+      "name": "storage",
+      "type": "macvlan",
+      "master": "ens5.21",
+      "ipam": {
+        "type": "whereabouts",
+        "range": "172.18.0.0/24",
+        "range_start": "172.18.0.30",
+        "range_end": "172.18.0.70"
+      }
+    }
+---
+apiVersion: k8s.cni.cncf.io/v1
+kind: NetworkAttachmentDefinition
+metadata:
+  labels:
+    osp/net: tenant
+  name: tenant
+  namespace: openstack
+spec:
+  config: |
+    {
+      "cniVersion": "0.3.1",
+      "name": "tenant",
+      "type": "macvlan",
+      "master": "ens5.22",
+      "ipam": {
+        "type": "whereabouts",
+        "range": "172.19.0.0/24",
+        "range_start": "172.19.0.30",
+        "range_end": "172.19.0.70"
+      }
+    }

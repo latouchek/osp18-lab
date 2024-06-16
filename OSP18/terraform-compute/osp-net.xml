@@ -1,0 +1,16 @@
+<network>
+  <name>osp-net</name>
+  <forward mode='bridge'/>
+  <bridge name='ovsbr0'/>
+  <virtualport type='openvswitch'/>
+  <vlan trunk='yes'>
+    <tag id='20'/>
+    <tag id='21'/>
+    <tag id='22'/>
+  </vlan>
+  <portgroup name='native'>
+    <vlan>
+      <tag id='1'/>
+    </vlan>
+  </portgroup>
+</network>

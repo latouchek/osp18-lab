@@ -1,0 +1,75 @@
+apiVersion: core.openstack.org/v1beta1
+kind: OpenStackVersion
+metadata:
+  name: openstack-galera-network-isolation
+  namespace: openstack
+spec:
+  customContainerImages: {}
+  targetVersion: 1.0.0
+  containerImageVersionDefaults:
+    1.0.0:
+      agentImage: registry.redhat.io/rhoso-podified-beta/openstack-baremetal-agent-rhel9:1.0.0
+      ansibleeeImage: registry.redhat.io/rhoso-edpm-beta/ee-openstack-ansible-ee-rhel9:1.0.0
+      aodhAPIImage: registry.redhat.io/rhoso-beta/openstack-aodh-api-rhel9:18.0.0
+      aodhEvaluatorImage: registry.redhat.io/rhoso-beta/openstack-aodh-evaluator-rhel9:18.0.0
+      aodhListenerImage: registry.redhat.io/rhoso-beta/openstack-aodh-listener-rhel9:18.0.0
+      aodhNotifierImage: registry.redhat.io/rhoso-beta/openstack-aodh-notifier-rhel9:18.0.0
+      apacheImage: registry.redhat.io/ubi9/httpd-24@sha256:79b69549c47f2fe1ef1d99406314348e91d8aca4d7da0d2e7482c7c49252414e
+      barbicanAPIImage: registry.redhat.io/rhoso-beta/openstack-barbican-api-rhel9:18.0.0
+      barbicanKeystoneListenerImage: registry.redhat.io/rhoso-beta/openstack-barbican-keystone-listener-rhel9:18.0.0
+      barbicanWorkerImage: registry.redhat.io/rhoso-beta/openstack-barbican-worker-rhel9:18.0.0
+      ceilometerCentralImage: registry.redhat.io/rhoso-beta/openstack-ceilometer-central-rhel9:18.0.0
+      ceilometerComputeImage: registry.redhat.io/rhoso-beta/openstack-ceilometer-compute-rhel9:18.0.0
+      ceilometerIpmiImage: registry.redhat.io/rhoso-beta/openstack-ceilometer-ipmi-rhel9:18.0.0
+      ceilometerNotificationImage: registry.redhat.io/rhoso-beta/openstack-ceilometer-notification-rhel9:18.0.0
+      ceilometerProxyImage: registry.redhat.io/rhoso-beta/openstack-aodh-api-rhel9:18.0.0
+      ceilometerSgcoreImage: registry.redhat.io/stf/sg-core-rhel8:5.2.1
+      cinderAPIImage: registry.redhat.io/rhoso-beta/openstack-cinder-api-rhel9:18.0.0
+      cinderBackupImage: registry.redhat.io/rhoso-beta/openstack-cinder-backup-rhel9:18.0.0
+      cinderSchedulerImage: registry.redhat.io/rhoso-beta/openstack-cinder-scheduler-rhel9:18.0.0
+      cinderVolumeImage: registry.redhat.io/rhoso-beta/openstack-cinder-volume-rhel9:18.0.0
+      designateAPIImage: registry.redhat.io/rhoso-beta/openstack-designate-api-rhel9:18.0.0
+      designateBackendbind9Image: registry.redhat.io/rhoso-beta/openstack-designate-backend-bind9-rhel9:18.0.0
+      designateCentralImage: registry.redhat.io/rhoso-beta/openstack-designate-central-rhel9:18.0.0
+      designateMdnsImage: registry.redhat.io/rhoso-beta/openstack-designate-mdns-rhel9:18.0.0
+      designateProducerImage: registry.redhat.io/rhoso-beta/openstack-designate-producer-rhel9:18.0.0
+      designateUnboundImage: registry.redhat.io/rhoso-beta/openstack-unbound-rhel9:18.0.0
+      designateWorkerImage: registry.redhat.io/rhoso-beta/openstack-designate-worker-rhel9:18.0.0
+      edpmFrrImage: registry.redhat.io/rhoso-beta/openstack-frr-rhel9:18.0.0
+      edpmIscsidImage: registry.redhat.io/rhoso-beta/openstack-iscsid-rhel9:18.0.0
+      edpmLogrotateCrondImage: registry.redhat.io/rhoso-beta/openstack-cron-rhel9:18.0.0
+      edpmMultipathdImage: registry.redhat.io/rhoso-beta/openstack-multipathd-rhel9:18.0.0
+      edpmNeutronMetadataAgentImage: registry.redhat.io/rhoso-beta/openstack-neutron-metadata-agent-ovn-rhel9:18.0.0
+      edpmNeutronSriovAgentImage: registry.redhat.io/rhoso-beta/openstack-neutron-sriov-agent-rhel9:18.0.0
+      edpmNodeExporterImage: registry.redhat.io/openshift4/ose-prometheus-node-exporter:v4.13
+      edpmOvnBgpAgentImage: registry.redhat.io/rhoso-beta/openstack-ovn-bgp-agent-rhel9:18.0.0
+      glanceAPIImage: registry.redhat.io/rhoso-beta/openstack-glance-api-rhel9:18.0.0
+      heatAPIImage: registry.redhat.io/rhoso-beta/openstack-heat-api-rhel9:18.0.0
+      heatCfnapiImage: registry.redhat.io/rhoso-beta/openstack-heat-api-cfn-rhel9:18.0.0
+      heatEngineImage: registry.redhat.io/rhoso-beta/openstack-heat-engine-rhel9:18.0.0
+      horizonImage: registry.redhat.io/rhoso-beta/openstack-horizon-rhel9:18.0.0
+      infraDnsmasqImage: registry.redhat.io/rhoso-beta/openstack-neutron-server-rhel9:18.0.0
+      infraMemcachedImage: registry.redhat.io/rhoso-beta/openstack-memcached-rhel9:18.0.0
+      ironicAPIImage: registry.redhat.io/rhoso-beta/openstack-ironic-api-rhel9:18.0.0
+      ironicConductorImage: registry.redhat.io/rhoso-beta/openstack-ironic-conductor-rhel9:18.0.0
+      ironicInspectorImage: registry.redhat.io/rhoso-beta/openstack-ironic-inspector-rhel9:18.0.0
+      ironicNeutronAgentImage: registry.redhat.io/rhoso-beta/openstack-ironic-neutron-agent-rhel9:18.0.0
+      ironicPxeImage: registry.redhat.io/rhoso-beta/openstack-ironic-pxe-rhel9:18.0.0
+      ironicPythonAgentImage: registry.redhat.io/rhoso-beta/ironic-python-agent-rhel9:18.0.0
+      keystoneAPIImage: registry.redhat.io/rhoso-beta/openstack-keystone-rhel9:18.0.0
+      manilaAPIImage: registry.redhat.io/rhoso-beta/openstack-manila-api-rhel9:18.0.0
+      manilaSchedulerImage: registry.redhat.io/rhoso-beta/openstack-manila-scheduler-rhel9:18.0.0
+      manilaShareImage: registry.redhat.io/rhoso-beta/openstack-manila-share-rhel9:18.0.0
+      mariadbImage: registry.redhat.io/rhoso-beta/openstack-mariadb-rhel9:18.0.0
+      neutronAPIImage: registry.redhat.io/rhoso-beta/openstack-neutron-server-rhel9:18.0.0
+      novaAPIImage: registry.redhat.io/rhoso-beta/openstack-nova-api-rhel9:18.0.0
+      novaComputeImage: registry.redhat.io/rhoso-beta/openstack-nova-compute-rhel9:18.0.0
+      novaConductorImage: registry.redhat.io/rhoso-beta/openstack-nova-conductor-rhel9:18.0.0
+      novaNovncImage: registry.redhat.io/rhoso-beta/openstack-nova-novncproxy-rhel9:18.0.0
+      novaSchedulerImage: registry.redhat.io/rhoso-beta/openstack-nova-scheduler-rhel9:18.0.0
+      octaviaAPIImage: registry.redhat.io/rhoso-beta/openstack-octavia-api-rhel9:18.0.0
+      octaviaHealthmanagerImage: registry.redhat.io/rhoso-beta/openstack-octavia-health-manager-rhel9:18.0.0
+      octaviaHousekeepingImage: registry.redhat.io/rhoso-beta/openstack-octavia-housekeeping-rhel9:18.0.0
+      octaviaWorkerImage: registry.redhat.io/rhoso-beta/openstack-octavia-worker-rhel9:18.0.0
+      openstackClientImage: registry.redhat.io/rhoso-beta/openstack-openstackclient-rhel9:18.0.0
+      osContainerImage: registry.redhat.io/rhoso-beta/edpm-hardened-uefi-rhel9:18.

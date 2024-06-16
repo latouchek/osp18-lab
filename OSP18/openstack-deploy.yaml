@@ -1,0 +1,7 @@
+apiVersion: dataplane.openstack.org/v1beta1
+kind: OpenStackDataPlaneDeployment
+metadata:
+  name: mcn-deployment
+spec:
+  nodeSets:
+    - osp-mcn-lab

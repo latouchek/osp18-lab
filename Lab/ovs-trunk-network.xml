@@ -1,0 +1,18 @@
+<network>
+  <name>osp-trunk-network</name>
+  <forward mode='bridge'/>
+  <bridge name='ovsbr0'/>
+  <virtualport type='openvswitch'/>
+  <portgroup name='vlan-native' default='yes'>
+     <tag id='1' nativeMode='untagged'/>
+ </portgroup>
+  <portgroup name='vlan-all'>
+    <vlan trunk='yes'>
+      <tag id='1' nativeMode='untagged'/>
+      <tag id='20'/>
+      <tag id='21'/>
+      <tag id='22'/>
+      <tag id='23'/>
+    </vlan>
+  </portgroup>
+</network>

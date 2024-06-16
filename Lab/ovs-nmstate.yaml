@@ -1,0 +1,62 @@
+---
+interfaces:
+  - name: ovsbr0
+    type: ovs-bridge
+    state: up
+    ipv4:
+      enabled: false
+
+  - name: int-ovsbr0
+    type: ovs-port
+    state: up
+    ipv4:
+      enabled: true
+      address:
+        - ip: 192.168.123.1
+          prefix-length: 24
+    bridge:
+      options:
+        ovs-bridge: ovsbr0
+
+  - name: trunk0
+    type: ovs-port
+    state: up
+    ipv4:
+      enabled: false
+    bridge:
+      options:
+        ovs-bridge: ovsbr0
+
+  - name: vlan20
+    type: vlan
+    state: up
+    vlan:
+      base-iface: trunk0
+      id: 20
+
+  - name: vlan21
+    type: vlan
+    state: up
+    vlan:
+      base-iface: trunk0
+      id: 21
+
+  - name: vlan22
+    type: vlan
+    state: up
+    vlan:
+      base-iface: trunk0
+      id: 23
+  - name: vlan23
+    type: vlan
+    state: up
+    vlan:
+      base-iface: trunk0
+      id: 22
+
+  - name: vlan1
+    type: vlan
+    state: up
+    vlan:
+      base-iface: trunk0
+      id: 1

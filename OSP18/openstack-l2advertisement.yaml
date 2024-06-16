@@ -1,0 +1,43 @@
+apiVersion: metallb.io/v1beta1
+kind: L2Advertisement
+metadata:
+  name: l2advertisement
+  namespace: metallb-system
+spec:
+  ipAddressPools:
+  - internalapi
+  interfaces:
+  - ens5.20 
+---
+apiVersion: metallb.io/v1beta1
+kind: L2Advertisement
+metadata:
+  name: ctlplane
+  namespace: metallb-system
+spec:
+  ipAddressPools:
+  - ctlplane
+  interfaces:
+  - ens5
+---
+apiVersion: metallb.io/v1beta1
+kind: L2Advertisement
+metadata:
+  name: storage
+  namespace: metallb-system
+spec:
+  ipAddressPools:
+  - storage
+  interfaces:
+  - ens5.21
+---
+apiVersion: metallb.io/v1beta1
+kind: L2Advertisement
+metadata:
+  name: tenant
+  namespace: metallb-system
+spec:
+  ipAddressPools:
+  - tenant
+  interfaces:
+  - ens5.22

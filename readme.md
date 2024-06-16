@@ -64,7 +64,7 @@ This lab is designed to test OSP18 in a virtualized environment using KVM, close
     # Expected output: "Login Succeeded!"
     ```
 
-### Installing the OpenStack Operator
+### Prepare installation 
 
 1. **Create the `openstack-operators` project for the RHOSP operators and the `openstack` project for the deployed RHOSP environment**:
 
@@ -106,7 +106,7 @@ This lab is designed to test OSP18 in a virtualized environment using KVM, close
     podman push ${BASTIONFQDN}:8443/admin/rhoso-podified-beta/openstack-operator-index:1.0.0
     ```
 
-6. **Create a secret in the `openshift-marketplace` namespace containing the authentication credentials for the private registry**:
+6. **Create a secret in the `openstack-operators` namespace containing the authentication credentials for the private registry**:
 
     ```bash
     oc create secret generic private-registry \
